@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import type { Activity, TimeOfDay, FitnessLevel } from '../../types';
 import { scenes } from '../../data/scenes';
 import { getActivitiesForScene } from '../../data/activities';
+import { getActivityImage } from '../../data/activityImages';
 import { getTimeOfDay } from '../../utils/time';
 import { SceneBackground } from './SceneBackground';
 import { Character, getFitnessLevel } from './Character';
@@ -19,6 +20,8 @@ interface SceneProps {
   onSleep: () => void;
 }
 
+const ACTIVITY_DISPLAY_DURATION = 2000; // 2 seconds
+
 export function Scene({
   sceneId,
   currentHour,
@@ -30,10 +33,32 @@ export function Scene({
   onSleep,
 }: SceneProps) {
   const [showSceneSelector, setShowSceneSelector] = useState(false);
+  const [activeActivityImage, setActiveActivityImage] = useState<string | null>(null);
+  const [isPerformingActivity, setIsPerformingActivity] = useState(false);
 
   const scene = scenes[sceneId];
   const timeOfDay = getTimeOfDay(currentHour) as TimeOfDay;
   const fitnessLevel = getFitnessLevel(fitnessValue) as FitnessLevel;
+
+  // Handle activity with animation
+  const handleActivitySelect = useCallback((activity: Activity) => {
+    const activityImage = getActivityImage(activity.id);
+
+    if (activityImage) {
+      setActiveActivityImage(activityImage);
+      setIsPerformingActivity(true);
+
+      // Show activity image, then perform activity
+      setTimeout(() => {
+        setIsPerformingActivity(false);
+        setActiveActivityImage(null);
+        onActivitySelect(activity);
+      }, ACTIVITY_DISPLAY_DURATION);
+    } else {
+      // No image, just perform activity
+      onActivitySelect(activity);
+    }
+  }, [onActivitySelect]);
 
   // Get activities for current scene and filter by time
   const allActivities = getActivitiesForScene(sceneId);
@@ -65,9 +90,22 @@ export function Scene({
           </button>
         </div>
 
-        {/* Character Display */}
+        {/* Character Display / Activity Image */}
         <div className="flex-1 flex items-center justify-center py-8">
-          <Character fitnessLevel={fitnessLevel} outfit={scene.characterOutfit} />
+          {isPerformingActivity && activeActivityImage ? (
+            <div className="relative animate-fade-in">
+              <img
+                src={activeActivityImage}
+                alt="Aktivität"
+                className="max-h-80 w-auto object-contain drop-shadow-2xl"
+              />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 bg-accent/90 text-white px-4 py-2 rounded-full text-sm font-medium animate-pulse">
+                Wird ausgeführt...
+              </div>
+            </div>
+          ) : (
+            <Character fitnessLevel={fitnessLevel} outfit={scene.characterOutfit} />
+          )}
         </div>
 
         {/* Activity Panel */}
@@ -83,7 +121,8 @@ export function Scene({
               </p>
               <button
                 onClick={onWakeUp}
-                className="w-full bg-accent hover:bg-accent/80 text-white font-semibold py-4 rounded-xl transition-colors"
+                disabled={isPerformingActivity}
+                className="w-full bg-accent hover:bg-accent/80 text-white font-semibold py-4 rounded-xl transition-colors disabled:opacity-50"
               >
                 🌅 Aufwachen
               </button>
@@ -92,11 +131,13 @@ export function Scene({
             <div className="space-y-4">
               <ActivityPanel
                 activities={availableActivities.filter((a) => a.id !== 'sleep')}
-                onActivitySelect={onActivitySelect}
+                onActivitySelect={handleActivitySelect}
+                disabled={isPerformingActivity}
               />
               <button
                 onClick={onSleep}
-                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-4 rounded-xl transition-colors"
+                disabled={isPerformingActivity}
+                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-4 rounded-xl transition-colors disabled:opacity-50"
               >
                 🌙 Schlafen gehen
               </button>
@@ -104,7 +145,8 @@ export function Scene({
           ) : (
             <ActivityPanel
               activities={availableActivities}
-              onActivitySelect={onActivitySelect}
+              onActivitySelect={handleActivitySelect}
+              disabled={isPerformingActivity}
             />
           )}
         </div>
