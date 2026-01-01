@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useGameState } from './hooks/useGameState';
+import { useAudio } from './hooks/useAudio';
 import { GameLayout } from './components/layout/GameLayout';
 import { Scene } from './components/scenes/Scene';
 import { AchievementPopup } from './components/ui/AchievementPopup';
@@ -24,8 +25,16 @@ function App() {
     resetGame,
   } = useGameState();
 
+  // Audio system - automatically changes based on scene
+  const { resumeAudio } = useAudio(currentSceneId);
+
+  // Handle user interaction to resume audio (browser autoplay policy)
+  const handleUserInteraction = () => {
+    resumeAudio();
+  };
+
   return (
-    <>
+    <div onClick={handleUserInteraction}>
       <GameLayout
         stats={stats}
         goals={goals}
@@ -58,7 +67,7 @@ function App() {
           onClose={dismissAchievement}
         />
       )}
-    </>
+    </div>
   );
 }
 
