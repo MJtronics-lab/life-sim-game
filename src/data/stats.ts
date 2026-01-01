@@ -1,10 +1,16 @@
 import type { Stat } from '../types';
 
+// Stat icons
+import deenIcon from '../assets/icons/deen.png';
+import fitnessIcon from '../assets/icons/fitness.png';
+import businessIcon from '../assets/icons/business.png';
+import fuehrerscheinIcon from '../assets/icons/fuehrerschein.png';
+
 export const initialStats: Record<string, Stat> = {
   deen: {
     id: 'deen',
     name: 'Deen',
-    icon: '🕌',
+    icon: deenIcon,
     currentValue: 50,
     decayRate: 5,
     color: 'deen',
@@ -17,7 +23,7 @@ export const initialStats: Record<string, Stat> = {
   fitness: {
     id: 'fitness',
     name: 'Fitness',
-    icon: '💪',
+    icon: fitnessIcon,
     currentValue: 50,
     decayRate: 3,
     color: 'fitness',
@@ -30,7 +36,7 @@ export const initialStats: Record<string, Stat> = {
   business: {
     id: 'business',
     name: 'Business',
-    icon: '💼',
+    icon: businessIcon,
     currentValue: 50,
     decayRate: 2,
     color: 'business',
@@ -42,7 +48,7 @@ export const initialStats: Record<string, Stat> = {
   fuehrerschein: {
     id: 'fuehrerschein',
     name: 'Führerschein',
-    icon: '🚗',
+    icon: fuehrerscheinIcon,
     currentValue: 20,
     decayRate: 1,
     color: 'fuehrerschein',

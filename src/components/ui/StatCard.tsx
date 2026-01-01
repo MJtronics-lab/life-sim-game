@@ -18,7 +18,11 @@ export function StatCard({ stat, compact = false, onClick }: StatCardProps) {
       onClick={onClick}
     >
       <div className="flex items-center gap-3 mb-3">
-        <span className="text-2xl">{stat.icon}</span>
+        <img
+          src={stat.icon}
+          alt={stat.name}
+          className="w-10 h-10 object-contain"
+        />
         <div className="flex-1">
           <div className="flex items-center justify-between">
             <h3 className="text-text-primary font-semibold">{stat.name}</h3>

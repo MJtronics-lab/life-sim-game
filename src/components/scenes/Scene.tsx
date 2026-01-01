@@ -49,7 +49,7 @@ export function Scene({
   return (
     <div className="relative h-full min-h-[600px]">
       {/* Background */}
-      <SceneBackground backgroundClass={scene.backgroundImage} sceneName={scene.name} />
+      <SceneBackground backgroundImage={scene.backgroundImage} sceneName={scene.name} />
 
       {/* Content */}
       <div className="relative z-10 h-full flex flex-col p-6">

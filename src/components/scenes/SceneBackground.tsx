@@ -1,16 +1,18 @@
 interface SceneBackgroundProps {
-  backgroundClass: string;
+  backgroundImage: string;
   sceneName: string;
 }
 
-export function SceneBackground({ backgroundClass, sceneName }: SceneBackgroundProps) {
+export function SceneBackground({ backgroundImage, sceneName }: SceneBackgroundProps) {
   return (
-    <div
-      className={`absolute inset-0 ${backgroundClass} opacity-80`}
-      aria-label={`Szene: ${sceneName}`}
-    >
+    <div className="absolute inset-0">
+      <img
+        src={backgroundImage}
+        alt={`Szene: ${sceneName}`}
+        className="w-full h-full object-cover"
+      />
       {/* Gradient Overlay for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/90 via-bg-primary/30 to-transparent" />
     </div>
   );
 }

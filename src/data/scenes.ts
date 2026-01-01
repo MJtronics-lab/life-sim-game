@@ -1,45 +1,53 @@
 import type { Scene, TimeOfDay } from '../types';
 
+// Scene background images
+import bedroomBg from '../assets/scenes/bedroom.png';
+import prayerRoomBg from '../assets/scenes/prayer-room.png';
+import warehouseBg from '../assets/scenes/warehouse.png';
+import homeOfficeBg from '../assets/scenes/home-office.png';
+import gymBg from '../assets/scenes/gym.png';
+import drivingSchoolBg from '../assets/scenes/driving-school.png';
+
 export const scenes: Record<string, Scene> = {
   bedroom: {
     id: 'bedroom',
     name: 'Schlafzimmer',
-    backgroundImage: 'bg-gradient-to-br from-indigo-900 to-purple-900',
+    backgroundImage: bedroomBg,
     characterOutfit: 'sleepwear',
     availableTimeOfDay: ['morning', 'night'],
   },
   prayer_room: {
     id: 'prayer_room',
     name: 'Gebetsecke',
-    backgroundImage: 'bg-gradient-to-br from-green-800 to-emerald-900',
+    backgroundImage: prayerRoomBg,
     characterOutfit: 'thobe',
     availableTimeOfDay: ['morning', 'midday', 'afternoon', 'evening', 'night'],
   },
   warehouse: {
     id: 'warehouse',
     name: 'Lager',
-    backgroundImage: 'bg-gradient-to-br from-gray-700 to-gray-900',
+    backgroundImage: warehouseBg,
     characterOutfit: 'casual',
     availableTimeOfDay: ['morning', 'midday'],
   },
   home_office: {
     id: 'home_office',
     name: 'Home Office',
-    backgroundImage: 'bg-gradient-to-br from-blue-800 to-blue-900',
+    backgroundImage: homeOfficeBg,
     characterOutfit: 'casual',
     availableTimeOfDay: ['midday', 'afternoon', 'evening'],
   },
   gym: {
     id: 'gym',
     name: 'Gym',
-    backgroundImage: 'bg-gradient-to-br from-orange-700 to-red-900',
+    backgroundImage: gymBg,
     characterOutfit: 'sportswear',
     availableTimeOfDay: ['afternoon', 'evening'],
   },
   driving_school: {
     id: 'driving_school',
     name: 'Fahrschule',
-    backgroundImage: 'bg-gradient-to-br from-purple-700 to-indigo-900',
+    backgroundImage: drivingSchoolBg,
     characterOutfit: 'casual',
     availableTimeOfDay: ['afternoon'],
   },
